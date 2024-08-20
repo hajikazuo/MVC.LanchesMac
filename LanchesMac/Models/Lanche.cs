@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using LanchesMac.Resources;
 
 namespace LanchesMac.Models;
 
@@ -7,33 +8,33 @@ public class Lanche
 {
     public int LancheId { get; set; }
 
-    [Required(ErrorMessage = "O campo {0} deve ser informado")]
+    [Required(ErrorMessageResourceType = typeof(TextosValidacao), ErrorMessageResourceName = nameof(TextosValidacao.Required))]
     [Display(Name = "Nome do Lanche")]
-    [StringLength(80, MinimumLength = 10, ErrorMessage = "O {0} deve ter no mínimo {1} e no máximo {2} caracteres")]
+    [MaxLength(80, ErrorMessageResourceType = typeof(TextosValidacao), ErrorMessageResourceName = nameof(TextosValidacao.MaxLength))]
     public string Nome { get; set; }
 
-    [Required(ErrorMessage = "A {0} deve ser informada")]
+    [Required(ErrorMessageResourceType = typeof(TextosValidacao), ErrorMessageResourceName = nameof(TextosValidacao.Required))]
     [Display(Name = "Descrição do Lanche")]
-    [StringLength(200, MinimumLength = 20, ErrorMessage = "{0} deve ter entre {2} e {1} caracteres")]
+    [MaxLength(200, ErrorMessageResourceType = typeof(TextosValidacao), ErrorMessageResourceName = nameof(TextosValidacao.MaxLength))]
     public string DescricaoCurta { get; set; }
 
-    [Required(ErrorMessage = "O {0} do lanche deve ser informada")]
+    [Required(ErrorMessageResourceType = typeof(TextosValidacao), ErrorMessageResourceName = nameof(TextosValidacao.Required))]
     [Display(Name = "Descrição detalhada do Lanche")]
-    [StringLength(200, MinimumLength = 20, ErrorMessage = "{0} deve ter entre {2} e {1} caracteres")]
+    [MaxLength(200, ErrorMessageResourceType = typeof(TextosValidacao), ErrorMessageResourceName = nameof(TextosValidacao.MaxLength))]
     public string DescricaoDetalhada { get; set; }
 
-    [Required(ErrorMessage = "Informe o {0} do lanche")]
+    [Required(ErrorMessageResourceType = typeof(TextosValidacao), ErrorMessageResourceName = nameof(TextosValidacao.Required))]
     [Display(Name = "Preço")]
     [Column(TypeName = "decimal(10,2)")]
     [Range(1, 999.99, ErrorMessage = "O {0} deve estar entre {1} e {2}")]
     public decimal Preco { get; set; }
 
     [Display(Name = "Caminho Imagem Normal")]
-    [StringLength(200, ErrorMessage = "O {0} deve ter no máximo {1} caracteres")]
+    [MaxLength(200, ErrorMessageResourceType = typeof(TextosValidacao), ErrorMessageResourceName = nameof(TextosValidacao.MaxLength))]
     public string ImagemUrl { get; set; }
 
     [Display(Name = "Caminho Imagem Miniatura")]
-    [StringLength(200, ErrorMessage = "O {0} deve ter no máximo {1} caracteres")]
+    [MaxLength(200, ErrorMessageResourceType = typeof(TextosValidacao), ErrorMessageResourceName = nameof(TextosValidacao.MaxLength))]
     public string ImagemThumbnailUrl { get; set; }
 
     [Display(Name = "Preferido?")]

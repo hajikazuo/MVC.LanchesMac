@@ -3,6 +3,9 @@ using LanchesMac.Repository.Interface;
 using LanchesMac.Repository;
 using Microsoft.EntityFrameworkCore;
 using LanchesMac.Models;
+using LanchesMac.Models.Usuarios;
+using Microsoft.AspNetCore.Identity;
+using LanchesMac.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,8 +15,26 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(connectionString));
 
+builder.Services.AddIdentity<Usuario, Funcao>()
+                       .AddEntityFrameworkStores<AppDbContext>()
+                       .AddDefaultUI()
+                       .AddErrorDescriber<PortugueseIdentityErrorDescriber>()
+                       .AddDefaultTokenProviders();
+
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.Cookie.HttpOnly = true;
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
+
+    options.LoginPath = "/Account/Login";
+    options.AccessDeniedPath = "/Account/AccessDenied";
+    options.LogoutPath = "/Account/Logout";
+    options.SlidingExpiration = true;
+});
+
 builder.Services.AddTransient<ILancheRepository, LancheRepository>();
 builder.Services.AddTransient<ICategoriaRepository, CategoriaRepository>();
+builder.Services.AddTransient<IPedidoRepository, PedidoRepository>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddScoped(sp => CarrinhoCompra.GetCarrinho(sp));
 
