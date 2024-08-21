@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using LanchesMac.Extensions;
 using LanchesMac.Services.Interfaces;
 using LanchesMac.Services;
+using LanchesMac.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,6 +34,8 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.LogoutPath = "/Account/Logout";
     options.SlidingExpiration = true;
 });
+
+builder.Services.Configure<ImagesSettings>(builder.Configuration.GetSection("ConfigurationImagens"));
 
 builder.Services.AddScoped<IReportService, ReportService>();
 builder.Services.AddScoped<ISeedInitial, SeedInitialService>();
