@@ -17,5 +17,5 @@ public class Categoria
     [Display(Name = "Descrição")]
     public string Descricao { get; set; }
 
-    public List<Lanche> Lanches { get; set; }
+    public List<Lanche>? Lanches { get; set; }
 }

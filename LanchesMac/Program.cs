@@ -34,6 +34,7 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.SlidingExpiration = true;
 });
 
+builder.Services.AddScoped<IReportService, ReportService>();
 builder.Services.AddScoped<ISeedInitial, SeedInitialService>();
 builder.Services.AddTransient<ILancheRepository, LancheRepository>();
 builder.Services.AddTransient<ICategoriaRepository, CategoriaRepository>();
@@ -73,17 +74,17 @@ using (var scope = app.Services.CreateScope())
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllerRoute(
+    name: "areas",
+    pattern: "{area:exists}/{controller=Admin}/{action=Index}/{id?}");
+
+    endpoints.MapControllerRoute(
     name: "categoriaFiltro",
     pattern: "Lanche/{action}/{categoria?}",
     defaults: new { controller = "Lanche", action = "List" });
 
     endpoints.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
-
-    endpoints.MapControllerRoute(
-    name: "areas",
-    pattern: "{area:exists}/{controller=Admin}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=Index}/{id?}");   
 });
 
 app.Run();

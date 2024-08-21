@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LanchesMac.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240821144123_dbInitial")]
+    [Migration("20240821163229_dbInitial")]
     partial class dbInitial
     {
         /// <inheritdoc />
