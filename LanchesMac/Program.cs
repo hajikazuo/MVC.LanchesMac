@@ -6,6 +6,8 @@ using LanchesMac.Models;
 using LanchesMac.Models.Usuarios;
 using Microsoft.AspNetCore.Identity;
 using LanchesMac.Extensions;
+using LanchesMac.Services.Interfaces;
+using LanchesMac.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,6 +34,7 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.SlidingExpiration = true;
 });
 
+builder.Services.AddScoped<ISeedInitial, SeedInitialService>();
 builder.Services.AddTransient<ILancheRepository, LancheRepository>();
 builder.Services.AddTransient<ICategoriaRepository, CategoriaRepository>();
 builder.Services.AddTransient<IPedidoRepository, PedidoRepository>();
@@ -58,7 +61,14 @@ app.UseStaticFiles();
 
 app.UseRouting();
 app.UseSession();
+app.UseAuthentication();
 app.UseAuthorization();
+
+using (var scope = app.Services.CreateScope())
+{
+    var seedUserService = scope.ServiceProvider.GetRequiredService<ISeedInitial>();
+    seedUserService.Seed();
+}
 
 app.UseEndpoints(endpoints =>
 {
@@ -70,6 +80,10 @@ app.UseEndpoints(endpoints =>
     endpoints.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+    endpoints.MapControllerRoute(
+    name: "areas",
+    pattern: "{area:exists}/{controller=Admin}/{action=Index}/{id?}");
 });
 
 app.Run();
