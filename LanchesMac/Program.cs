@@ -9,10 +9,19 @@ using LanchesMac.Extensions;
 using LanchesMac.Services.Interfaces;
 using LanchesMac.Services;
 using LanchesMac.Settings;
+using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+var cultureInfo = new CultureInfo("pt-BR");
+cultureInfo.NumberFormat.NumberDecimalSeparator = ".";
+cultureInfo.NumberFormat.CurrencyDecimalSeparator = ".";
+cultureInfo.NumberFormat.NumberDecimalDigits = 2;
+cultureInfo.NumberFormat.CurrencyDecimalDigits = 2;
+CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -37,6 +46,7 @@ builder.Services.ConfigureApplicationCookie(options =>
 
 builder.Services.Configure<ImagesSettings>(builder.Configuration.GetSection("ConfigurationImagens"));
 
+builder.Services.AddScoped<IPhotoService, PhotoService>();
 builder.Services.AddScoped<IReportService, ReportService>();
 builder.Services.AddScoped<ISeedInitial, SeedInitialService>();
 builder.Services.AddTransient<ILancheRepository, LancheRepository>();

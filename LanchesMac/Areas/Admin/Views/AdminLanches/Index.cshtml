@@ -58,10 +58,10 @@
                 @Html.DisplayFor(modelItem => item.Preco)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ImagemUrl)
+                    <img src="~/img/products/@item.ImagemUrl" width="50" />
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ImagemThumbnailUrl)
+                    <img src="~/img/products/tb/@item.ImagemUrl" width="50" />
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.IsLanchePreferido)

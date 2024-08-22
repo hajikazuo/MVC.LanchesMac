@@ -26,16 +26,15 @@ public class Lanche
     [Required(ErrorMessageResourceType = typeof(TextosValidacao), ErrorMessageResourceName = nameof(TextosValidacao.Required))]
     [Display(Name = "Preço")]
     [Column(TypeName = "decimal(10,2)")]
-    [Range(1, 999.99, ErrorMessage = "O {0} deve estar entre {1} e {2}")]
     public decimal Preco { get; set; }
 
     [Display(Name = "Caminho Imagem Normal")]
     [MaxLength(200, ErrorMessageResourceType = typeof(TextosValidacao), ErrorMessageResourceName = nameof(TextosValidacao.MaxLength))]
-    public string ImagemUrl { get; set; }
+    public string? ImagemUrl { get; set; }
 
     [Display(Name = "Caminho Imagem Miniatura")]
     [MaxLength(200, ErrorMessageResourceType = typeof(TextosValidacao), ErrorMessageResourceName = nameof(TextosValidacao.MaxLength))]
-    public string ImagemThumbnailUrl { get; set; }
+    public string? ImagemThumbnailUrl { get; set; }
 
     [Display(Name = "Preferido?")]
     public bool IsLanchePreferido { get; set; }

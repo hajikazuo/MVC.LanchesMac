@@ -8,6 +8,9 @@ using Microsoft.EntityFrameworkCore;
 using LanchesMac.Context;
 using LanchesMac.Models;
 using Microsoft.AspNetCore.Authorization;
+using LanchesMac.Settings;
+using Microsoft.Extensions.Options;
+using LanchesMac.Services.Interfaces;
 
 namespace LanchesMac.Areas.Admin.Controllers
 {
@@ -15,21 +18,25 @@ namespace LanchesMac.Areas.Admin.Controllers
     [Authorize(Roles = "Admin")]
     public class AdminLanchesController : Controller
     {
+        private readonly string _pastaImagens;
+        private readonly IWebHostEnvironment _hostingEnvironment;
         private readonly AppDbContext _context;
+        private readonly IPhotoService _photoService;
 
-        public AdminLanchesController(AppDbContext context)
-        {
+        public AdminLanchesController(IOptions<ImagesSettings> myConfig, IWebHostEnvironment hostingEnvironment, AppDbContext context, IPhotoService photoService)
+        {          
+            _hostingEnvironment = hostingEnvironment;
             _context = context;
+            _pastaImagens = Path.Combine(_hostingEnvironment.WebRootPath, myConfig.Value.PastaImagens);
+            _photoService = photoService;
         }
 
-        // GET: Admin/AdminLanches
         public async Task<IActionResult> Index()
         {
             var appDbContext = _context.Lanches.Include(l => l.Categoria);
             return View(await appDbContext.ToListAsync());
         }
 
-        // GET: Admin/AdminLanches/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -48,22 +55,29 @@ namespace LanchesMac.Areas.Admin.Controllers
             return View(lanche);
         }
 
-        // GET: Admin/AdminLanches/Create
         public IActionResult Create()
         {
             ViewData["CategoriaId"] = new SelectList(_context.Categorias, "CategoriaId", "CategoriaNome");
             return View();
         }
 
-        // POST: Admin/AdminLanches/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("LancheId,Nome,DescricaoCurta,DescricaoDetalhada,Preco,ImagemUrl,ImagemThumbnailUrl,IsLanchePreferido,EmEstoque,CategoriaId")] Lanche lanche)
+        public async Task<IActionResult> Create(Lanche lanche, IFormFile? anexo)
         {
             if (ModelState.IsValid)
             {
+                if (anexo != null && anexo.Length > 0)
+                {
+                    var nomeArquivo = await _photoService.ProcessarFotoAsync(_pastaImagens, anexo);
+
+                    if (nomeArquivo != null)
+                    {
+                        lanche.ImagemUrl = nomeArquivo;
+                        lanche.ImagemThumbnailUrl = nomeArquivo; 
+                    }
+                }
+
                 _context.Add(lanche);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -72,7 +86,6 @@ namespace LanchesMac.Areas.Admin.Controllers
             return View(lanche);
         }
 
-        // GET: Admin/AdminLanches/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -89,12 +102,9 @@ namespace LanchesMac.Areas.Admin.Controllers
             return View(lanche);
         }
 
-        // POST: Admin/AdminLanches/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("LancheId,Nome,DescricaoCurta,DescricaoDetalhada,Preco,ImagemUrl,ImagemThumbnailUrl,IsLanchePreferido,EmEstoque,CategoriaId")] Lanche lanche)
+        public async Task<IActionResult> Edit(int id, Lanche lanche, IFormFile? anexo)
         {
             if (id != lanche.LancheId)
             {
@@ -105,6 +115,16 @@ namespace LanchesMac.Areas.Admin.Controllers
             {
                 try
                 {
+                    if (anexo != null && anexo.Length > 0)
+                    {
+                        var nomeArquivo = await _photoService.ProcessarFotoAsync(_pastaImagens, anexo);
+
+                        if (nomeArquivo != null)
+                        {
+                            lanche.ImagemUrl = nomeArquivo;
+                            lanche.ImagemThumbnailUrl = nomeArquivo;
+                        }                       
+                    }
                     _context.Update(lanche);
                     await _context.SaveChangesAsync();
                 }
@@ -125,7 +145,6 @@ namespace LanchesMac.Areas.Admin.Controllers
             return View(lanche);
         }
 
-        // GET: Admin/AdminLanches/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -144,7 +163,6 @@ namespace LanchesMac.Areas.Admin.Controllers
             return View(lanche);
         }
 
-        // POST: Admin/AdminLanches/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -163,5 +181,7 @@ namespace LanchesMac.Areas.Admin.Controllers
         {
             return _context.Lanches.Any(e => e.LancheId == id);
         }
+
+        
     }
 }
