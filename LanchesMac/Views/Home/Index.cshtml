@@ -1,12 +1,20 @@
 ﻿@model HomeViewModel
+@* 
+<partial name="_Carousel" /> *@
 
-<partial name="_Carousel" />
 
-<h2>Os preferidos da semana </h2>
-
-<div class="row">
-    @foreach (var lanche in Model.LanchesPreferidos)
-    {
-        <partial name="_LanchesResumo" for="@lanche" />
-    }
+<div id="testimonial">
+    <div class="container">
+        <div class="row h-100">
+            <div class="col-lg-7 mx-auto text-center my-6">
+                <h5 class="fw-bold fs-3 fs-lg-5 lh-sm mb-3">Os mais vendidos da semana</h5>
+            </div>
+        </div>
+        <div class="row gx-2">
+            @foreach (var lanche in Model.LanchesPreferidos)
+            {
+                <partial name="_LanchesResumo" for="@lanche" />
+            }
+        </div>
+    </div>
 </div>

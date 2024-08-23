@@ -1,27 +1,14 @@
 ﻿@model Lanche
 
-<div class="col-md-4 mb-5">
-    <div class="card h-100 shadow border-0">
-        <img class="card-img-top img-fluid img-lanche" src="~/img/products/@Model.ImagemUrl" alt="Imagem do lanche" />
-        <div class="card-body p-4">
-
+<div class="col-sm-6 col-md-4 mb-5 h-100">
+    <div class="card card-span h-100 rounded-3">
+        <img class="img-fluid rounded-3 h-100" src="~/img/products/@Model.ImagemUrl" alt="..." />
+        <div class="card-body ps-0">
             <a asp-controller="Lanche" asp-action="Details" asp-route-lancheId="@Model.LancheId">
-                <h5 class="card-title mb-3">@Model.Nome</h5>
+                <h5 class="fw-bold text-1000 text-truncate mb-1">@Model.Nome</h5>
             </a>
-
-            <p class="card-text mb-0">@Model.DescricaoCurta</p>
-        </div>
-        <div class="card-footer p-4 pt-0 bg-transparent border-top-0">
-            <div class="d-flex align-items-end justify-content-between">
-                <div class="d-flex align-items-center">
-                    <div class="small">
-                        <div class="text-muted mb-3">@Model.Preco.ToString("c")</div>
-                        <p class="button">
-                            <a asp-controller="CarrinhoCompra" asp-action="AdicionarItemNoCarrinhoCompra" asp-route-lancheId="@Model.LancheId" class="btn btn-primary">Adicionar ao Carrinho</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
+            <div><span class="text-primary">@Model.DescricaoCurta</span></div><span class="text-1000 fw-bold">@Model.Preco.ToString("c")</span>
         </div>
     </div>
+    <div class="d-grid gap-2"><a asp-controller="CarrinhoCompra" asp-action="AdicionarItemNoCarrinhoCompra" asp-route-lancheId="@Model.LancheId" class="btn btn-lg btn-danger" role="button">Adicionar ao Carrinho</a></div>
 </div>
