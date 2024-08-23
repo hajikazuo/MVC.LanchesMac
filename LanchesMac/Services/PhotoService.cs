@@ -59,8 +59,8 @@ namespace LanchesMac.Services
 
             using (Image imagemOriginal = Image.FromFile(pathImgOriginal))
             {
-                int larguraThumbnail = 360;
-                int alturaThumbnail = 270;
+                int larguraThumbnail = 180;
+                int alturaThumbnail = 155;
 
                 using (Image thumbnail = new Bitmap(larguraThumbnail, alturaThumbnail))
                 {
