@@ -2,10 +2,9 @@
 
 @if (Model.CarrinhoCompra.CarrinhoCompraItems.Count > 0)
 {
-    <a asp-controller="CarrinhoCompra" asp-action="Index">
-        <span><i class="fa-solid fa-cart-shopping text-white"></i></span>
-        <span class="text-white">
-            @Model.CarrinhoCompra.CarrinhoCompraItems.Count
-        </span>
-    </a>
+    <li class="nav-item mt-2">
+        <a asp-controller="CarrinhoCompra" asp-action="Index">
+            <span><i class="fa-solid fa-cart-shopping me-2"></i>@Model.CarrinhoCompra.CarrinhoCompraItems.Count</span>
+        </a>
+    </li>
 }
