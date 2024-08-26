@@ -28,11 +28,11 @@ public class Lanche
     [Column(TypeName = "decimal(10,2)")]
     public decimal Preco { get; set; }
 
-    [Display(Name = "Caminho Imagem Normal")]
+    [Display(Name = "Imagem Normal")]
     [MaxLength(200, ErrorMessageResourceType = typeof(TextosValidacao), ErrorMessageResourceName = nameof(TextosValidacao.MaxLength))]
     public string? ImagemUrl { get; set; }
 
-    [Display(Name = "Caminho Imagem Miniatura")]
+    [Display(Name = "Imagem Miniatura")]
     [MaxLength(200, ErrorMessageResourceType = typeof(TextosValidacao), ErrorMessageResourceName = nameof(TextosValidacao.MaxLength))]
     public string? ImagemThumbnailUrl { get; set; }
 
