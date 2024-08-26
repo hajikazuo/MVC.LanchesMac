@@ -1,37 +1,56 @@
 ﻿ @model LoginViewModel
 
-<table class="table">
-    <tr>
-        <td>
-            <div class="row">
-                <div class="col-10 col-md-10 col-lg-10">
-                    <h4>Login</h4>
-                    <form asp-controller="Account" asp-action="Login" method="post" class="form-horizontal" role="form">
-                        <hr />
-                        <div asp-validation-summary="All" class="text-danger"></div>
-                        <input type="hidden" asp-for="ReturnUrl" />
-                        <div class="form-group">
-                            <label asp-for="UserName" class="col-md-2 control-label"></label>
-                            <div class="col-md-6">
-                                <input asp-for="UserName" class="form-control" />
-                                <span asp-validation-for="UserName" class="text-danger"></span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="Password" class="col-md-2 control-label"></label>
-                            <div class="col-md-6">
-                                <input asp-for="Password" class="form-control" />
-                                <span asp-validation-for="Password" class="text-danger"></span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-md-8">
-                                <input type="submit" class="btn btn-success" value="Log in" />
-                            </div>
-                        </div>
-                    </form>
-                </div>
+@{
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+
+<div class="card shadow-lg border-0 rounded-lg mt-5">
+    <div class="card-header">
+        <h3 class="text-center font-weight-light my-4">Login</h3>
+    </div>
+    <div class="card-body">
+        <form asp-controller="Account" asp-action="Login" method="post" role="form">
+            <input type="hidden" asp-for="ReturnUrl" />
+            <div class="form-floating mb-3">
+                <input asp-for="@Model.UserName" class="form-control" />
+                <label asp-for="@Model.UserName"></label>
+                <span asp-validation-for="@Model.UserName" class="text-danger"></span>
             </div>
-        </td>
-    </tr>
-</table>
+            <div class="input-group mb-3">
+                <input asp-for="@Model.Password" class="form-control" placeholder="Senha" id="Password" />
+                <button class="btn btn-danger" type="button" id="togglePassword">
+                    <i class="far fa-eye" id="eye"></i>
+                </button>
+            </div>
+            <span asp-validation-for="@Model.Password" class="text-danger"></span>
+            <div class="d-grid">
+                <button id="js-login-btn" type="submit" class="btn btn-danger btn-block btn-lg">Login</button>
+            </div>
+        </form>
+    </div>
+    <div class="card-footer text-center py-3">
+        <div class="small"><a asp-controller="Account" asp-action="Register">Registre-se</a></div>
+    </div>
+</div>
+
+<script>
+    const senhaInput = document.getElementById('Password');
+    const eyeIcon = document.getElementById('eye');
+    const togglePasswordButton = document.getElementById('togglePassword');
+    let passwordVisible = false;
+
+    togglePasswordButton.addEventListener('click', function () {
+        if (passwordVisible) {
+            senhaInput.type = 'password';
+            eyeIcon.classList.remove('fa-eye-slash');
+            eyeIcon.classList.add('fa-eye');
+        } else {
+            senhaInput.type = 'text';
+            eyeIcon.classList.remove('fa-eye');
+            eyeIcon.classList.add('fa-eye-slash');
+        }
+
+        passwordVisible = !passwordVisible;
+    });
+
+</script>
