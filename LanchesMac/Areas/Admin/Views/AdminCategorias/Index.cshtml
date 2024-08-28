@@ -1,41 +1,53 @@
 ﻿@model IEnumerable<LanchesMac.Models.Categoria>
 
 @{
-    ViewData["Title"] = "Index";
+    var pageName = "Lista de categorias";
+    ViewData["Title"] = pageName;
+    ViewData["Category1"] = "Categorias";
+    ViewData["Heading"] = "Categorias: <span class='fw-300'>Listagem</span>";
 }
 
-<h1>Index</h1>
+<div class="container-fluid mt-3">
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.CategoriaNome)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Descricao)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.CategoriaNome)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Descricao)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.CategoriaId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.CategoriaId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.CategoriaId">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5>@pageName</h5>
+        </div>
+        <div class="card-body">
+            <p>
+                <a class="btn btn-secondary" asp-action="Create">Cadastrar</a>
+            </p>
+            <table id="myTable" class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CategoriaNome)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Descricao)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CategoriaNome)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Descricao)
+                            </td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@item.CategoriaId">Editar</a> |
+                                <a asp-action="Details" asp-route-id="@item.CategoriaId">Detalhes</a> |
+                                <a asp-action="Delete" asp-route-id="@item.CategoriaId">Deletar</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

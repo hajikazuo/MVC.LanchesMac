@@ -39,9 +39,10 @@ public class Lanche
     [Display(Name = "Preferido?")]
     public bool IsLanchePreferido { get; set; }
 
-    [Display(Name = "Estoque")]
+    [Display(Name = "Em estoque")]
     public bool EmEstoque { get; set; }
 
+    [Display(Name = "Categoria")]
     public int CategoriaId { get; set; }
     public virtual Categoria? Categoria { get; set; }
 

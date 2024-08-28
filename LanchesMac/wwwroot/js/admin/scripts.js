@@ -24,3 +24,12 @@ window.addEventListener('DOMContentLoaded', event => {
     }
 
 });
+
+window.addEventListener('DOMContentLoaded', event => {
+    let table = new DataTable('table', {
+        language: {
+            url: '/traducao/datatable_portuguese.json'
+        },
+        responsive: true
+    });
+});
