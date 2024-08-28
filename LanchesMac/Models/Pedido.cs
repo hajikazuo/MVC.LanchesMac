@@ -57,12 +57,12 @@ namespace LanchesMac.Models
         public int TotalItensPedido { get; set; }
 
         [Display(Name = "Data do Pedido")]
-        [DataType(DataType.Text)]
+        [DataType(DataType.DateTime)]
         [DisplayFormat(DataFormatString = "{0: dd/MM/yyyy hh:mm}", ApplyFormatInEditMode = true)]
         public DateTime PedidoEnviado { get; set; }
 
         [Display(Name = "Data Envio Pedido")]
-        [DataType(DataType.Text)]
+        [DataType(DataType.DateTime)]
         [DisplayFormat(DataFormatString = "{0: dd/MM/yyyy hh:mm}", ApplyFormatInEditMode = true)]
         public DateTime? PedidoEntregueEm { get; set; }
 

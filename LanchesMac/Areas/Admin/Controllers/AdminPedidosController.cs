@@ -32,7 +32,7 @@ namespace LanchesMac.Areas.Admin.Controllers
 
             if (pedido == null)
             {
-                return View("NotFound", id.Value);
+                return NotFound();
             }
 
             PedidoLancheViewModel pedidoLanches = new PedidoLancheViewModel()

@@ -1,43 +1,82 @@
 ﻿@model LanchesMac.ViewModels.PedidoLancheViewModel
 
 @{
-    ViewData["Title"] = "PedidoLanches";
+    var pageName = "Detalhes do pedido";
+    ViewData["Title"] = pageName;
+    ViewData["Category1"] = "Pedidos";
+    ViewData["Heading"] = "Pedidos: <span class='fw-300'>Detalhes do pedido</span>";
     decimal totalPedido = 0;
 }
 
-<h1>Lanches do Pedido</h1>
-<hr />
+<div class="container-fluid mt-3">
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5>@pageName</h5>
+        </div>
+        <div class="card-body">
+            <h3>Pedido  :  @Html.DisplayFor(model => @Model.Pedido.PedidoId)</h3>
+            <h3>Cliente :  @Html.DisplayFor(model => @Model.Pedido.Nome)</h3>
+            <h3>Data    :  @Html.DisplayFor(model => @Model.Pedido.PedidoEnviado)</h3>
+            <h3>Entrega :  @Html.DisplayFor(model => @Model.Pedido.PedidoEntregueEm)</h3>
+        </div>
+    </div>
 
-<h3>Pedido  :  @Html.DisplayFor(model => @Model.Pedido.PedidoId)</h3>
-<h3>Cliente :  @Html.DisplayFor(model => @Model.Pedido.Nome)</h3>
-<h3>Data    :  @Html.DisplayFor(model => @Model.Pedido.PedidoEnviado)</h3>
-<h3>Entrega :  @Html.DisplayFor(model => @Model.Pedido.PedidoEntregueEm)</h3>
 
-<table class="table">
-    @foreach (var item in @Model.Pedido.PedidoItens)
-    {
-        totalPedido += (@item.Lanche.Preco * @item.Quantidade);
-        <tr>
-            <td align="right">
-                <h3>@Html.DisplayFor(modelItem => item.Lanche.Nome)</h3>
-            </td>
-            <td align="right">
-                <img src="@item.Lanche.ImagemUrl" class="img-fluid" height="100" width="100">
-            </td>
-            <td align="right">
-                <h3>@string.Format("{0:C}", item.Lanche.Preco)</h3>
-            </td>
-            <td align="right">
-                <h3>(@Html.DisplayFor(modelItem => item.Quantidade))</h3>
-            </td>
-        </tr>
-    }
-    <tr>
-        <td colspan="2">&nbsp;</td>
-        <td align="right">
-            <h3>Total do Pedido : @string.Format("{0:C}", @totalPedido)</h3>
-        </td>
-    </tr>
-</table>
-<a asp-action="Index" class="btn btn-outline-info">Retornar</a>
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5>Lanches do pedido</h5>
+        </div>
+        <div class="card-body">
+            <table id="myTable" class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>
+                            Lanche
+                        </th>
+                        <th>
+                            Imagem
+                        </th>
+                        <th>
+                            Preço
+                        </th>
+                        <th>
+                            Quantidade
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in @Model.Pedido.PedidoItens)
+                    {
+                        totalPedido += (@item.Lanche.Preco * @item.Quantidade);
 
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Lanche.Nome)
+                            </td>
+                            <td>
+                                <img src="~/img/products/@item.Lanche.ImagemUrl" class="img-fluid" height="100" width="100">
+                            </td>
+                            <td>
+                                @string.Format("{0:C}", item.Lanche.Preco)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Quantidade)
+                            </td>
+                        </tr>
+
+                    }
+                </tbody>
+                <tr>
+                    <td colspan="3"> <h3>Total do Pedido :</h3></td>
+                    <td>
+                        <h3>@string.Format("{0:C}", @totalPedido)</h3>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="form-group mt-3">
+        <a class="btn btn-outline-secondary" asp-action="Index">Voltar para a lista</a>
+    </div>
+</div>
